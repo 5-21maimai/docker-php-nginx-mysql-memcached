@@ -19,7 +19,7 @@ Install Docker for Mac.
 Clone this repository.
 
 ```bash
-$ git clone git@github.com:koni/docker-php-nginx-mysql-memcached.git
+$ git clone https://github.com/kiwi-26/docker-php-nginx-mysql-memcached.git
 ```
 
 ## Usage
