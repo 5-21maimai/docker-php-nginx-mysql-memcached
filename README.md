@@ -50,6 +50,7 @@ If you want to use PHP 5.6, write below on `docker-compose.yml`.
 
 ## Changelog from original repo
 - Change nginx listening port from 80 to 8080
+    - Use http://localhost:8080/
 - Add app-get unzip, git
 - Add composer install
 
