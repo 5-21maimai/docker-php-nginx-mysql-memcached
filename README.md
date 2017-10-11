@@ -1,5 +1,6 @@
 docker-php-nginx-mysql-memcached
 ====
+-- エンジニア定例版
 
 ## Overview
 
@@ -47,11 +48,16 @@ If you want to use PHP 5.6, write below on `docker-compose.yml`.
 >    build: ./php-fpm56
 ```
 
+## Changelog from original repo
+- Change nginx listening port from 80 to 8080
+- Add app-get unzip, git
+- Add composer install
+
 ## License
 
 This software is released under the MIT License, see [LICENSE](https://github.com/koni/docker-php-nginx-mysql-memcached/blob/master/LICENSE).
 
-## Author
+## Original Author
 
 [koni](https://github.com/koni)
 
