@@ -9,7 +9,9 @@ services:
       - ./misc/data:/var/lib/mysql
 
   mysql:
-    image: mysql:5.7
+    build:
+      context: .
+      dockerfile: Dockerfile-MySQL
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: mysql_database
