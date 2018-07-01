@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>ニフティものづくりブログ</title>
+	<atom:link href="http://blog.web.nifty.com/feed" rel="self" type="application/rss+xml" />
+	<link>http://blog.web.nifty.com</link>
+	<description>NIFTY Tech&#38;Design Craft Blog</description>
+	<lastBuildDate>Tue, 22 May 2018 02:47:42 +0000</lastBuildDate>
+	<language>ja</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.9.6</generator>
+	<item>
+		<title>エンジニア＆企画合同社内ハッカソンでの学び &#8211; 誰に質問すれば良いのか分からない時答えを得られるWEBサービス「ちえぶくろ」を制作して</title>
+		<link>http://blog.web.nifty.com/engineer/1626</link>
+		<pubDate>Tue, 22 May 2018 02:47:42 +0000</pubDate>
+		<dc:creator><![CDATA[松居麻衣]]></dc:creator>
+				<category><![CDATA[Engineer]]></category>
+		<category><![CDATA[Laravel]]></category>
+		<category><![CDATA[ハッカソン]]></category>
+		<category><![CDATA[初心者向け]]></category>
+
+		<guid isPermaLink="false">http://blog.web.nifty.com/?p=1626</guid>
+		<description><![CDATA[はじめに 先日、エンジニア育成の一環として「1人で1からWebサービスを作れるようになる」ために、WEBサービ [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div id="main-content" class="wiki-content">
+<h2>はじめに</h2>
+<p>先日、エンジニア育成の一環として「1人で1からWebサービスを作れるようになる」ために、WEBサービス開発合宿を行いました。<br />
+合宿の風景はこの記事をご覧ください。</p>
+<p><a href="http://blog.web.nifty.com/engineer/1568">若手メンバーで2泊3日のハッカソン合宿＠おんやど恵に行ってきました！</a></p>
+</div>
+<p>&nbsp;</p>
+<p>この記事では、タグ付け質問投稿サービス「ちえぶくろ」についてサービス内容や使用した技術、学んだことをご紹介します！</p>
+<p><span id="more-1626"></span></p>
+<div id="main-content" class="wiki-content">
+<h2>チーム紹介</h2>
+<p>このサービスは以下の3人で制作しました。<br />
+・松居（PO、普段は不動産サービスアプリ開発担当）<br />
+・播磨（普段は求人サービス企画）<br />
+・金（普段はニュースサービス企画）<br />
+チームメンバーのうち2人が企画職で、全員が普段WEBサービス開発には携わっていない状態で少し不安なところもありました。</p>
+<p>&nbsp;</p>
+<h2>サービスの紹介</h2>
+<h3 id="id-エンジニア定例ブログ用サービスの紹介資料-どんな課題を解決したいか？">どんな課題を解決したいか？</h3>
+<p>社内の仕事に役立つサービスを作るというのが今回のお題です。</p>
+<p>いま社内でどんなことで困っているか、いろいろ考えてみると次のようなことが出てきました。</p>
+<ul>
+<li>質問をしたいけど誰がどの分野に詳しいのかわからない
+<ul>
+<li>SEOに詳しい人は誰だろう？</li>
+<li>○○さんって何に詳しいんだろう・・・</li>
+</ul>
+</li>
+<li>違うチームの人に質問しづらい
+<ul>
+<li>あまり話したことないから聞きづらい</li>
+<li>忙しいかどうかもわからないから直接連絡とりづらい</li>
+</ul>
+</li>
+</ul>
+<p>そこで、いろいろ聞きたいことはあるけれど、先輩に質問しづらい、気を使いがちな若手社員向けに、気軽に質問ができるサービスをつくることにしました。</p>
+<h3 id="id-エンジニア定例ブログ用サービスの紹介資料-必要な機能の検討">必要な機能の検討</h3>
+<p>基本的には質問を投稿すると、誰かが回答をする掲示板の形をとることにします。<br />
+気軽に質問できるように、質問者は回答者を意識することなく、質問ができるようにします。<br />
+回答が早くつくように、回答が可能そうな人には質問があることを知らせてあげる必要がありそうです。<br />
+質問と回答者を結びつけるには、質問の投稿にタグをつけてあげると、どんな質問か分類できてよさそうです。<br />
+そんなかんじで、機能を整理すると以下のような機能が必要となりそうでした。</p>
+<ul>
+<li>基本的な掲示板の機能
+<ul>
+<li>質問を投稿することができる</li>
+<li>その質問に対して、回答を投稿することができる</li>
+<li>質問の一覧と質問・回答の表示ができる</li>
+<li>誰が質問・回答したのかがわかるように投稿者を記録する</li>
+<li>タイトル・本文からキーワードで質問を検索できる</li>
+</ul>
+</li>
+<li>タグ機能
+<ul>
+<li>質問にタグをつけることができる（SEO・Swiftなど）</li>
+<li>タグのついた質問を一覧表示できる</li>
+</ul>
+</li>
+<li>ユーザー機能
+<ul>
+<li>ログイン機能をつける</li>
+<li>ユーザーのプロフィールに回答可能な分野のタグを登録する機能をつける</li>
+<li>自分のタグのついた質問一覧を表示できる</li>
+<li>タグをつけているユーザーの一覧がわかる</li>
+</ul>
+</li>
+<li>通知機能
+<ul>
+<li>自分のタグのついた質問が投稿されたら通知する</li>
+</ul>
+</li>
+</ul>
+<h3 id="id-エンジニア定例ブログ用サービスの紹介資料-「ちえぶくろ」の紹介">「ちえぶくろ」の紹介</h3>
+<p>※一般公開はしておりません。</p>
+<p><img class="alignnone wp-image-1651 size-large" src="http://blog.web.nifty.com/wp-content/uploads/2018/04/chiebukuro-1024x415.png" alt="" width="640" height="259" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/chiebukuro-1024x415.png 1024w, http://blog.web.nifty.com/wp-content/uploads/2018/04/chiebukuro-300x121.png 300w, http://blog.web.nifty.com/wp-content/uploads/2018/04/chiebukuro-768x311.png 768w, http://blog.web.nifty.com/wp-content/uploads/2018/04/chiebukuro.png 1052w" sizes="(max-width: 640px) 100vw, 640px" /></p>
+<p>&nbsp;</p>
+<p>タグ付きの掲示板です。気軽につかってもらえるようにやさしい画面イメージを心がけました。<br />
+キーワードによる検索、タグ・投稿者による絞り込みができます。</p>
+<p><img class="alignnone wp-image-1652 size-large" src="http://blog.web.nifty.com/wp-content/uploads/2018/04/chiebukuro2-1024x794.png" alt="" width="640" height="496" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/chiebukuro2-1024x794.png 1024w, http://blog.web.nifty.com/wp-content/uploads/2018/04/chiebukuro2-300x233.png 300w, http://blog.web.nifty.com/wp-content/uploads/2018/04/chiebukuro2-768x595.png 768w, http://blog.web.nifty.com/wp-content/uploads/2018/04/chiebukuro2.png 1067w" sizes="(max-width: 640px) 100vw, 640px" /></p>
+<p>&nbsp;</p>
+<p>マイページでは自分の回答できるタグ、マイタグを登録できます。<br />
+登録したマイタグに関する質問が一覧できますので、回答がしやすくなります。<br />
+また、自分が強くなりたい分野のタグを設定しておくと参考にもなります。<br />
+時間の都合で通知機能は実装できませんでしたが、それ以外の機能についてはなんとか盛り込むことができました！</p>
+</div>
+<p>&nbsp;</p>
+<h2>開発について</h2>
+<div id="main-content" class="wiki-content">企画2人+PHP未経験のエンジニア一人のチームだったので、全員の開発環境の足並みを揃えることを重視して開発していました。<br />
+今回はPHPフレームワークのLaravelを使って開発したことによって、開発環境の障壁を減らすことができました！</p>
+<h3>Laravelとは？</h3>
+<p>Laravelは海外でも人気の高いWebフレームワークです。<br />
+今回の合宿ではフレームワークを使った開発を学ぶという意味合いでLaravelを使うことになっていましたが、<br />
+初心者でも使いやすく、スムーズに開発をすることができました。<br />
+特に便利だった機能を紹介します。</p>
+<p>&nbsp;</p>
+<h4>データベースの設定</h4>
+<p>チーム3人のローカルの開発環境に、同じデータベースを作ってダミーデータを入れておく必要がありました。<br />
+Laravelでは、テーブルの定義を書いたマイグレーションファイルと、ダミーデータが書いてあるシーダーファイルを1つ作成しておけば<br />
+コマンド1つで簡単にローカル環境のデータベースの設定ができました！<br />
+（マイグレーションファイルとシーダーファイルの書き方についてはこちらをご覧ください）</p>
+<p><a class="external-link" href="https://readouble.com/laravel/5.6/ja/migrations.html" target="_blank" rel="nofollow noopener"> Laravel 5.6 データベース：マイグレーション</a></p>
+<p><a class="external-link" href="https://readouble.com/laravel/5.6/ja/seeding.html" target="_blank" rel="nofollow noopener"> Laravel 5.6 データベース：シーディング</a></p>
+<p>データベースのマイグレーション（<span class="st">テーブル定義を自動的に作成</span>）</p><pre class="crayon-plain-tag">$ php artisan migrate</pre><p>テーブルにダミーデータを入れる<code><br />
+</code></p><pre class="crayon-plain-tag">$ php artisan db:seed</pre><p>&nbsp;</p>
+<p>マイグレーションファイルとシーダーファイルをチーム内で共有すれば、<br />
+上記のコマンドを打つだけで全員同じ環境にすることができました。<br />
+Laravelの便利な機能を使うと、3人の開発環境を一気に整えられたので実際の開発の時間を長く確保することができました！</p>
+<p>&nbsp;</p>
+<h4>Artisanコマンド</h4>
+<p>ArtisanはLaravelに含まれているコマンドラインインターフェイスです。<br />
+データベース作成の時にも登場しましたが、<br />
+LaravelでWebアプリケーション開発をする際に便利なコマンドがたくさんあります。<br />
+「ちえぶくろ」は、質問を一覧に表示させたり、質問を作成したり、マイタグを更新したりと、データベースを操作する作業が大半でした。<br />
+そこで質問を出し入れするための「QuestionController」を作ったのですが、<br />
+この時にArtisanが活躍します！<code class="bash plain"><br />
+</code></p><pre class="crayon-plain-tag">$ php artisan make:controller --resource</pre><p>&nbsp;</p>
+<p>コマンドを打つと、「app/Http/Controllers/QuestionController.php」が作られます。<br />
+しかも、データ操作に必要なメソッドを自動生成してくれるのです！</p><pre class="crayon-plain-tag">&lt;?php
+ 
+namespace App\Http\Controllers;
+ 
+use Illuminate\Http\Request;
+ 
+class QuestionController extends Controller
+{
+ 
+    public function index()
+    {
+        //
+    }
+ 
+    public function create()
+    {
+        //
+    }
+ 
+    public function store(Request $request)
+    {
+        //
+    }
+ 
+    public function show($id)
+    {
+        //
+    }
+ 
+    public function edit($id)
+    {
+        //
+    }
+ 
+    public function update(Request $request, $id)
+    {
+        //
+    }
+ 
+    public function destroy($id)
+    {
+        //
+    }
+}</pre><p>&nbsp;</p>
+<p>コントローラー作成で作られるメソッドについては<br />
+<a class="external-link" href="https://readouble.com/laravel/5.6/ja/controllers.html" target="_blank" rel="nofollow noopener"> Laravel 5.6 コントローラ</a>をご覧ください。<br />
+Artisanコマンドを使うことによって、LaravelやPHPに詳しくなかった私たちも、スムーズに開発することができました！<br />
+（実際に開発中に、一緒のチームだった企画職の方も「Laravelはコマンド打つだけでいろいろやってくれるから便利だよね～」と言っていました！）</p>
+<p>&nbsp;</p>
+<h4>ログイン機能</h4>
+<p>「ちえぶくろ」は自分のアカウントがあり、質問した人の名前やマイタグの設定などをできるようになっています。<br />
+Laravelではアカウントを作ってログインするという機能も簡単に実装できます。</p><pre class="crayon-plain-tag">$ php artisan make:auth</pre><p><code> </code></p>
+<p>このコマンドで、ログイン画面やアカウント作成画面、認証部分のロジックなども自動で作ってくれます！<br />
+あとは画面の修正をしたり、ルーティングをサービスにあわせるだけで、ログイン機能が完成します。<br />
+アカウント情報はusersテーブルに格納されているので（パスワードはハッシュ化されています）、<br />
+別の画面でアカウント名を出したりすることも可能です。</p>
+</div>
+<p>&nbsp;</p>
+<h2>学んだこと</h2>
+<h3>仕様作成の大事さ</h3>
+<p>チームメンバー全員がWEB開発の経験が浅かったため、とにかく動作するものを作成することがメインのゴールになっていました。<br />
+ざっくりのサイト動線は考えましたが、細かい仕様をちゃんと決めてないまま作業に入りました。<br />
+その結果、最初全体の仕様が決まっていれば1回で終わったはずの作業が、ページごと一々作業することになり無駄な工数が発生しました。<br />
+WEBサービスを制作できたことは良かったですが、今後は無駄な作業を減らすためにも最初から仕様をちゃんと考えたいと思います。</p>
+<p>&nbsp;</p>
+<h3>状況の共有と把握の大事さ</h3>
+<p>チームメンバが隣で作業していた環境でもあり、各自の作業については基本口頭でざっくりした共有しかしませんでした。<br />
+その結果、作業に余裕ができた人が他の人の作業を手伝おうとしても作業の進捗や状況把握まで時間がかかりました。<br />
+今後は作業の状況把握と共有することを心にかけて、作業内容をwikiなどにて共有することで無駄な作業時間を減らしたいと思います。</p>
+<p>&nbsp;</p>
+<h3>限られている作業時間の使い方</h3>
+<p>作業の優先順位は決めていましたが、実装が厳しそうな場合にどれくらい時間をかけるかなどの取捨選択について、ちゃんと話しあいができていませんでした。<br />
+そのため、予想より実装が難しかった作業に対して、周りからもアドバイスを受けて勉強にはなりましたが、非常に時間が掛かってしまい他の作業に手を入れることができませんでした。<br />
+今後の業務でも時間が限られていることが多いと思うため、作業時間はちゃんと計画を考えた上に柔軟に時間を使いたいと思います。</p>
+<p>&nbsp;</p>
+<h2>おわりに</h2>
+<p>今回の合宿では普段の業務から離れ、開発担当と企画担当が同じゴールに向けてサービスを開発することができた良い機会でした。<br />
+短い期間の中解決したい課題が沢山あり悩みも多かったですが、みんなで話合って協力し少しづつサービスが改善していくことを見ると非常に嬉しかったです。<br />
+この合宿を通じて開発担当も企画担当もお互いの考え方や仕事のやり方について理解を深めることができたので、今後の業務にもこの経験を活かしてより効率も良くなると思います。<br />
+とにかく最後まで楽しく開発することができましたので、今後もこのような機会を全社的に広げて行きたいと思います。</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>社内技術書をもっとラクに管理するツールを3日で作った &#124; エンジニア＆企画合同社内ハッカソンでの学び</title>
+		<link>http://blog.web.nifty.com/engineer/1664</link>
+		<pubDate>Tue, 15 May 2018 01:18:02 +0000</pubDate>
+		<dc:creator><![CDATA[砂川祐子]]></dc:creator>
+				<category><![CDATA[Engineer]]></category>
+		<category><![CDATA[ハッカソン]]></category>
+
+		<guid isPermaLink="false">http://blog.web.nifty.com/?p=1664</guid>
+		<description><![CDATA[こんにちは！ニフティライフスタイル 開発統括部のすながわです。 みなさん、開発合宿やってますか？え、やっていな [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>こんにちは！ニフティライフスタイル 開発統括部のすながわです。<br />
+みなさん、開発合宿やってますか？え、やっていない？それはもったいない！！<br />
+もったいない精神が浸透しているニフティでは今年も開発合宿を開催いたしました。</p>
+<p>その模様をどこよりも生々しく！有意義な時間を過ごすためのTipsをお送りしようという気持ちでキーボードを叩いています。</p>
+<p><span id="more-1664"></span></p>
+<h2>メンバー</h2>
+<p>ししくら(3年目、企画職)</p>
+<p>すぎもと(7年目、企画職)</p>
+<p>ひらいで(3年目、エンジニア)</p>
+<p>すながわ(3年目、エンジニア）</p>
+<h2>どんなサービスをつくったのか</h2>
+<p>今回は、業務で使いたいサービス、というお題のもと、<br />
+我々のチームでは、<strong>社内の技術書を管理・検索出来るサービスを作ろう！</strong>ということになりました。</p>
+<p>その名もLatestechbook！</p>
+<p><img class="alignnone wp-image-1667 size-full" src="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_11-32-22.png" alt="" width="562" height="381" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_11-32-22.png 562w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_11-32-22-300x203.png 300w" sizes="(max-width: 562px) 100vw, 562px" /></p>
+<p>&nbsp;</p>
+<p>「L」を本に見立てたロゴがキュートでクールですよね。</p>
+<p><img class="alignnone wp-image-1669 size-large" src="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_13-46-36-1024x713.png" alt="" width="640" height="446" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_13-46-36-1024x713.png 1024w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_13-46-36-300x209.png 300w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_13-46-36-768x534.png 768w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_13-46-36.png 1220w" sizes="(max-width: 640px) 100vw, 640px" /></p>
+<p>&nbsp;</p>
+<p>管理の煩わしさを軽減するため、ISBNを入れればGoogleBookAPIから本の情報を取得してフォームを埋めるような仕様にしたり、</p>
+<p><img class="alignnone size-large wp-image-1670" src="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_13-52-10-1024x541.png" alt="" width="640" height="338" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_13-52-10-1024x541.png 1024w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_13-52-10-300x158.png 300w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_13-52-10-768x406.png 768w" sizes="(max-width: 640px) 100vw, 640px" /></p>
+<p>何日前に発行されたかを表示して「あ、これもしかすると古いな･･････」と思わせるようにしています。</p>
+<p>すながわ個人としては「本を邪魔せずうるさくないけど、ちょっとポップでおしゃれな感じ」の見た目を作れるように頑張りました。</p>
+<p>このサービスが発案された経緯としては、</p>
+<p>弊社にはありがたいことにたくさん技術書があるのですが、ありがたくないことに「バージョンが古いかなあ･･････」という技術書も散見されており、</p>
+<p>新しいやつ出てるから買えYO！と買い替えを管理者に促すツールがあればいいよね～というニーズからでした。</p>
+<p>が、さすがに実質2日間でレコメンドまでやるのはきびしいな、環境構築で終わるな、と現実を省みた結果、</p>
+<p>せめて技術書の管理を今より簡単にしたいね･････、と、いうことで、技術書がラクに管理・検索できるサービスを目指して作ることになりました。</p>
+<blockquote>
+<h4><span style="color: #ff6600"><em>ポイント</em></span></h4>
+<p><span style="color: #ff6600"><em>合宿では注力して開発するために、ある程度妥協するのも大事</em></span></p></blockquote>
+<h2>POの離脱</h2>
+<p>と、作るものが決まったものの、企画発案者でプロダクトオーナーだったししくらさんが合宿直前に食中毒に倒れ、合宿に参加できない事態に。</p>
+<p>これが合宿での我々のスタンスを変えていく結果となるとは･･････。</p>
+<blockquote>
+<h4><span style="color: #ff6600"><em>ポイント</em></span></h4>
+<p><span style="color: #ff6600"><em>お金を取って提供するものは、ちゃんと衛生管理して欲しい</em></span></p></blockquote>
+<h2>開発本番</h2>
+<p>ダウンしたししくらさんのかわりに、メンバーが4人いた別チームからすぎもとさんが急遽参加。<br />
+宿に向かう車中で急いでサービスのインプットをします。</p>
+<p><img class="alignnone size-medium wp-image-1668" src="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_11-59-13-300x215.png" alt="" width="300" height="215" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_11-59-13-300x215.png 300w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_11-59-13.png 703w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<p>途中昼食を挟みます</p>
+<p><img class="alignnone size-medium wp-image-1676" src="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_14-37-8-300x205.png" alt="" width="300" height="205" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_14-37-8-300x205.png 300w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_14-37-8-768x525.png 768w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_14-37-8.png 850w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<h6>湯河原駅前のそば屋うまい。てんぷらもうまい</h6>
+<p>宿に到着したらさっそく開発を始めます。</p>
+<p><img class="alignnone size-medium wp-image-1672" src="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_13-10-15-300x202.png" alt="" width="300" height="202" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_13-10-15-300x202.png 300w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_13-10-15-768x517.png 768w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_13-10-15.png 871w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<p>ひらいでさんがDBやデータソースの構築をしている間に、企画職のすぎもとさんに対してgitやLaravelの復習講座を行いつつ、画面構成などを考えていきます。</p>
+<p>しかし環境構築に苦戦している間、なかなか本開発に入れず若干手持ち無沙汰になってしまう時間も。</p>
+<blockquote>
+<h4><em><span style="color: #ff6600">ポイント</span></em></h4>
+<p><em><span style="color: #ff6600">開発環境構築で止まってしまいそうな場合は先にHTMLを組むなどの作業をするなど、先に作戦を練っておくと時間の有効活用が出来るぞ！</span></em></p></blockquote>
+<p><img class="alignnone size-medium wp-image-1673" src="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_13-17-55-300x206.png" alt="" width="300" height="206" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_13-17-55-300x206.png 300w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_13-17-55.png 758w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<p>なんやかんやあったものの、開発に入ってしまえば後はいかに集中してコードを書きまくれるかです！</p>
+<p>我々のチームでは<strong>「アジャイルもどき」</strong>を導入して、</p>
+<p>まず最低限必要な機能から先に最低限の見た目で作成し、付加的な機能は次以降のタームで優先順位と工数を見極めて開発に取り掛かるという形で開発を進めていきました。</p>
+<p>これが功を奏し、早い段階で「本の検索・管理(追加や削除、編集)」といった機能を実現することができ、<strong>心理的安全</strong>を保障しながら機能追加に取り掛かることが可能に！</p>
+<p>ビルディングしたてのチームで、普段あまり慣れていない技術で開発する、しかも限られた時間で、というのは結構ストレスフルなことなのですが、</p>
+<p>こういった形で心理的安全を保障するとだいぶ気が楽になるのでオススメです。</p>
+<blockquote>
+<h4><span style="color: #ff6600"><em>ポイント</em></span></h4>
+<p><span style="color: #ff6600"><em>「本当に時間内に完成するのか？」という不安を早めに払拭しよう</em></span></p></blockquote>
+<p><span style="color: #000000">最低限作れたところで、冒頭で紹介したISBNでの書籍登録の仕組みを作っていったり、管理者権限を設定したり、見た目をきれいにしていくような作業を行っていきました。</span></p>
+<p><span style="color: #000000"><img class="alignnone wp-image-1674 size-full" src="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_14-3-19.png" alt="" width="874" height="656" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_14-3-19.png 874w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_14-3-19-300x225.png 300w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_14-3-19-768x576.png 768w" sizes="(max-width: 874px) 100vw, 874px" /></span></p>
+<p><span style="color: #000000">写真は3ターム目で、合宿後半の時点です。ここまで来ると、イイネボタンや、リクエストランキングなど、本質的な機能よりは、</span></p>
+<p><span style="color: #000000">「これがあれば良い本かどうかわかるよね」「次の購入のタイミングであの本買わせたいよね」といった欲望的機能の追加の検討に入れています。</span></p>
+<p><span style="color: #000000">しかし、この中で実装できていたのは結果一覧の整理や登録画面のキャンセルボタンのみ。</span></p>
+<p><span style="color: #000000">思いのほか、イイネボタンやリクエストは実装するのに想定より時間がかかってしまったためです。序盤だったらメンバー全員が心に致命傷を負っていたことでしょう･･････。</span></p>
+<blockquote>
+<h4><span style="color: #000000"><em><span style="color: #ff6600">ポイント</span></em></span></h4>
+<p><span style="color: #000000"><span style="color: #ff6600"><em>気が付いたら合宿が終わっていた　とならないように、時には見切りをつけよう</em></span><br />
+</span></p></blockquote>
+<p><span style="color: #000000">終始穏やかな調子で開発が進み、苦戦することはあっても「うわあ、どうしようどうしよう時間無い！！」と焦ることもなく、無事に完成を向かえることができました。</span></p>
+<p><span style="color: #000000"><img class="alignnone size-medium wp-image-1677" src="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_14-29-21-300x225.png" alt="" width="300" height="225" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_14-29-21-300x225.png 300w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_14-29-21-768x577.png 768w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_14-29-21.png 787w" sizes="(max-width: 300px) 100vw, 300px" /></span></p>
+<h6>発表の様子</h6>
+<h2><span style="color: #000000">合宿を振り返って</span></h2>
+<p><span style="color: #000000">開発・発表後は振り返りを行いました。<br />
+</span></p>
+<p><img class="alignnone size-full wp-image-1675" src="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_14-27-45.png" alt="" width="874" height="656" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_14-27-45.png 874w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_14-27-45-300x225.png 300w, http://blog.web.nifty.com/wp-content/uploads/2018/04/image2018-4-16_14-27-45-768x576.png 768w" sizes="(max-width: 874px) 100vw, 874px" /></p>
+<p><span style="color: #000000">振り返りの内容は画像の通りです、と言ってしまえばそれまでなのですが、上記の中から2点ほどピックアップしたいと思います。</span></p>
+<h3><span style="color: #000000">企画職・すぎもとさんの成長</span></h3>
+<p><span style="color: #000000">この合宿は、ニフティの「エンジニア定例」というプログラムの一環で行われているのですが、<br />
+近年はエンジニア以外にも、普段開発業務を行わない企画職にも参加者を広げています。</span></p>
+<p><span style="color: #000000">合宿序盤は、エンジニア定例で学んだ知識を必死に思い出しつつ苦しそうに開発していたすぎもとさんでしたが、</span></p>
+<p><span style="color: #000000">後半にはゴリゴリcommitを行ったり、書籍の検索ロジックをパワーアップさせるほどの目覚ましい成長！！</span></p>
+<p><span style="color: #000000">本人に感想を聞いたところ、<strong>「半年の研修のうち、合宿の3日間が一番成長したと感じた！」「開発の楽しさを感じた」</strong>とのことです。合宿すごいぜ。</span></p>
+<h3>できることばっかりやってしまった</h3>
+<p>すぎもとさんが急成長した反面、エンジニアのすながわ・ひらいでは技術的ハードルを越える回数があまり多くはありませんでした。</p>
+<p>もちろん苦戦することはしたのですが、</p>
+<p>一番ホットな思いをもつPOが居なかったこともあり、夢を見たり、「ぜってーこの機能をつけてやるんだ！」という思いがあまりなく、</p>
+<p>「現実的に考えると、こっちのほうが工数的にも早いよね」と非常に冷静に進めてしまいました。</p>
+<p>技術的に成長するには<strong>ハート</strong>も必要なんですね･･････。</p>
+<blockquote>
+<h4><span style="color: #ff6600"><em>ポイント</em></span></h4>
+<p><span style="color: #ff6600"><em>自分ごとで考えろ　熱くなれ！</em></span></p></blockquote>
+<p>いかがだったでしょうか？この問いには「合宿してえ！」「ニフティいい会社だな」という答えを期待しているのですが、どうでしょうか。</p>
+<p>めちゃくちゃ学べて圧倒的成長が見込める開発合宿、みなさんもぜひお試し下さい。</p>
+<div id="selenium-highlight"></div>
+<div id="selenium-highlight"></div>
+<div id="selenium-highlight"></div>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>エンジニア＆企画合同社内ハッカソンでの学び &#124; つながるから、まよわない！「つなまよ」制作記</title>
+		<link>http://blog.web.nifty.com/engineer/1606</link>
+		<pubDate>Tue, 08 May 2018 01:40:03 +0000</pubDate>
+		<dc:creator><![CDATA[夏井萌子]]></dc:creator>
+				<category><![CDATA[Engineer]]></category>
+		<category><![CDATA[ハッカソン]]></category>
+
+		<guid isPermaLink="false">http://blog.web.nifty.com/?p=1606</guid>
+		<description><![CDATA[こんにちは！ 入社３年目トリオの韓・夏井・奥野です。 本記事は以上３名の共同執筆です。 先日弊社で、エンジニア [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>こんにちは！<br />
+入社３年目トリオの韓・夏井・奥野です。<br />
+本記事は以上３名の共同執筆です。</p>
+<p>先日弊社で、エンジニア/企画合同の温泉ハッカソン合宿を行いました！<br />
+今回は、そこで私達が作成したサービス【つなまよ】をご紹介します。</p>
+<p><span id="more-1606"></span></p>
+<p>※他ハッカソン関連記事は「<a href="http://blog.web.nifty.com/engineer/1568">若手メンバーで2泊3日のハッカソン合宿＠おんやど恵に行ってきました！</a>」をご覧ください。</p>
+<h2>メンバー紹介</h2>
+<p>まずは、ノリは良いがクセの強いメンバーのご紹介。</p>
+<ul>
+<li>
+<h4>韓　雪雅（プロダクトオーナー）</h4>
+</li>
+</ul>
+<p style="padding-left: 30px;">データベース担当。データへのアクセス速度を気にしがち。<br />
+コーヒーと映画が好き。ガンプラも好きだけど最近はご無沙汰。<br />
+業務では倉庫システムや決算システムの開発/運用を担当。</p>
+<ul>
+<li>
+<h4>夏井　萌子</h4>
+</li>
+</ul>
+<p style="padding-left: 30px;">UI/デザイン担当。色彩選定には一切の妥協を許さない。<br />
+蛇と絵画と写真が好きな、多趣味人間。<br />
+業務ではニフティポータルサイトの企画を担当。</p>
+<ul>
+<li>
+<h4>奥野　雅之</h4>
+</li>
+</ul>
+<p style="padding-left: 30px;">ロジック/アニメーション担当。ワクワクするUXがモットー。<br />
+最近はVRにハマっている。流行りものに敏感。<br />
+業務ではニフティゲームの企画を担当。</p>
+<p>３名とも開発の経験はありましたが<br />
+今回の合宿では未経験の領域も多く、学習しながら開発を進めました。</p>
+<p>「社員全員が友達になる」をチームビジョンに掲げ<br />
+完成度の高いものを作れるよう、楽しく３日間をやり切りました！</p>
+<p>それでは、制作物の【つなまよ】をご紹介します。</p>
+<h2>制作物について</h2>
+<p>まず皆さんはこんなことで悩んだことありませんか？</p>
+<blockquote><p>「このサービスのシステム担当者と話してみたいけど、誰だろう？」</p>
+<p>「Pythonを勉強してみたいけどいいフレームワーク、お勧めしてもらえないかな？」</p></blockquote>
+<p>&nbsp;</p>
+<p>結局「たくさんの人に聞いてやっと分かった&#8230;」ということになってないでしょうか。そこで「社内の人をもっと簡単に調べたい」と思い、社内の社員検索ツールの「つなまよ」を作ることになりました。</p>
+<p>ではツールの画面をお見せします。<br />
+※画像内のデータはダミーとなっています。</p>
+<p>こちらがトップ画面になり、左のメニューには検索窓とニフティのサービス名を表示しています。</p>
+<p><img class="alignnone wp-image-1688 size-large" src="http://blog.web.nifty.com/wp-content/uploads/2018/04/top-1-1024x590.png" alt="" width="640" height="369" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/top-1-1024x590.png 1024w, http://blog.web.nifty.com/wp-content/uploads/2018/04/top-1-300x173.png 300w, http://blog.web.nifty.com/wp-content/uploads/2018/04/top-1-768x442.png 768w, http://blog.web.nifty.com/wp-content/uploads/2018/04/top-1.png 1297w" sizes="(max-width: 640px) 100vw, 640px" /></p>
+<p>「このサービスのシステム担当者と仕様について話してみたいけど、誰に相談すればいい？」 調べたいシステム名を押すと、そのシステムの担当者のプロフィールが表示されます。</p>
+<p><img class="alignnone wp-image-1689 size-large" src="http://blog.web.nifty.com/wp-content/uploads/2018/04/member_list-1024x597.jpg" alt="" width="640" height="373" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/member_list-1024x597.jpg 1024w, http://blog.web.nifty.com/wp-content/uploads/2018/04/member_list-300x175.jpg 300w, http://blog.web.nifty.com/wp-content/uploads/2018/04/member_list-768x447.jpg 768w, http://blog.web.nifty.com/wp-content/uploads/2018/04/member_list.jpg 1313w" sizes="(max-width: 640px) 100vw, 640px" /></p>
+<p>詳細画面では【職種、座席、スキル、好き】の項目が確認できます。メール送信ができるボタンもあります。</p>
+<p><img class="alignnone wp-image-1690 " src="http://blog.web.nifty.com/wp-content/uploads/2018/04/profile-1.png" alt="" width="641" height="242" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/profile-1.png 856w, http://blog.web.nifty.com/wp-content/uploads/2018/04/profile-1-300x113.png 300w, http://blog.web.nifty.com/wp-content/uploads/2018/04/profile-1-768x290.png 768w" sizes="(max-width: 641px) 100vw, 641px" /></p>
+<p>「Pythonを勉強してみたいけど良いフレームワーク、お勧めしてもらえないかな？」<br />
+Pythonで検索するとPythonスキルを持っている人のプロフィールが表示されます。<br />
+良いフレームワークはこの方々にお勧めしてもらいましょう。</p>
+<p><img class="alignnone wp-image-1691 size-full" src="http://blog.web.nifty.com/wp-content/uploads/2018/04/python-1.png" alt="" width="632" height="329" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/python-1.png 632w, http://blog.web.nifty.com/wp-content/uploads/2018/04/python-1-300x156.png 300w" sizes="(max-width: 632px) 100vw, 632px" /></p>
+<p>スキルだけではなくて別の項目でも検索できるので、ぜひ好きな言葉で検索してみてください。同じ趣味の社員が見つかるかもしれません。</p>
+<h2>こだわりポイント</h2>
+<p>短い時間で完成度を高めるためこだわった部分が二つあります。</p>
+<h4>１． デザイン・アニメーション</h4>
+<p>シンプルなテーマに合わせて簡単に使える、使ってみたくなるようなデザインに力を入れました。チームメンバー全員がデザインへの欲望が溢れていることも一つの理由です。</p>
+<p>▼使用したライブラリ</p>
+<ul>
+<li>masonry
+<ul>
+<li><a href="https://masonry.desandro.com/">https://masonry.desandro.com/</a></li>
+</ul>
+</li>
+<li>Text particle
+<ul>
+<li><a href="https://codepen.io/Gthibaud/pen/pyeNKj">https://codepen.io/Gthibaud/pen/pyeNKj</a></li>
+</ul>
+</li>
+</ul>
+<h4>２． データ表示の効率化</h4>
+<p>最初、予想以上にデータの読み込みが遅かったです。<br />
+「手軽に使えるツールなのに表示が遅いとダメでしょう！」と思ったので、データの読み込み方法を変えることにしました。</p>
+<p><img class="alignnone wp-image-1621 " src="http://blog.web.nifty.com/wp-content/uploads/2018/04/table.png" alt="" width="652" height="392" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/table.png 835w, http://blog.web.nifty.com/wp-content/uploads/2018/04/table-300x180.png 300w, http://blog.web.nifty.com/wp-content/uploads/2018/04/table-768x462.png 768w" sizes="(max-width: 652px) 100vw, 652px" /></p>
+<p>毎回複数のテーブルをJOINしてSELECTする方法ではなく、複数のテーブルを予めJOINしたViewを作成し、そのViewをSELECTする方法に変更しました。実感できるくらい表示が速くなったと思います。</p>
+<h2>合宿での学び</h2>
+<p>ひたすら開発に打ち込んだ２泊３日の開発合宿でしたが、もちろん学びもたくさんありました。その中の一部をご紹介します。</p>
+<h4><strong>１． 工数の見積りはしっかりすべき！</strong></h4>
+<p>設計後ざっくりタスクを分担しそれぞれ実装に取り掛かったのですが、<br />
+「LaravelでDB構築ってどれくらい時間かかるんだっけ&#8230;」「そもそもどうやるんだっけ&#8230;」等はっきりさせないまま作業分担してしまった為、DB担当の負担がとんでもないことに。。結果DBとフロントの連携ができないことで前に進めず皆でモヤモヤする一日目を過ごしました。</p>
+<p>▼一日目、開発中の様子<br />
+<img class="alignnone wp-image-1618 " src="http://blog.web.nifty.com/wp-content/uploads/2018/04/IMG_20180307_163214387.jpg" alt="" width="658" height="493" srcset="http://blog.web.nifty.com/wp-content/uploads/2018/04/IMG_20180307_163214387.jpg 800w, http://blog.web.nifty.com/wp-content/uploads/2018/04/IMG_20180307_163214387-300x225.jpg 300w, http://blog.web.nifty.com/wp-content/uploads/2018/04/IMG_20180307_163214387-768x576.jpg 768w" sizes="(max-width: 658px) 100vw, 658px" /></p>
+<p>取り掛かる前に調査し、タスクをしっかり洗い出すべきだったと１日目の夜に反省しました。２日目からは工数の洗い出しや作業分担を丁寧に行い、効率よく作業をすることができました。</p>
+<h4>２． ナレッジ共有は積極的に！</h4>
+<p>チーム内で担当部分の技術をお互いに説明する時間を自主的に設けていました。<br />
+そのお陰でシステムを体系的に理解でき、何をしているのかが明確になり、大きいマージミスも無く実装できました。ここで細かな情報共有の大切さを改めて実感できました。</p>
+<h2>まとめ</h2>
+<p>落ち着く旅館の雰囲気や温泉に入ってリラックスできたりと、<br />
+最大限集中できる環境でチーム開発ができたことでそれぞれがたくさんの学びを得たと思います。<br />
+最初は３日間も開発漬けか&#8230;と少し億劫な気持ちもありましたが、結果とても楽しい３日間でした。</p>
+<p>週１回行われた社内勉強会を経てそこで学んだ技術を活かし、企画から実装までチームで行いましたが、ものづくりの一連の流れを体験できたことはエンジニア・企画職共にとても貴重な経験になりました。</p>
+<p>学んだ技術や考え方を、今後は実業務に活かしてよりよいサービス作りに励んでいきます。</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>
